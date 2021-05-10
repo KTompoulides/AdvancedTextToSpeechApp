@@ -6,6 +6,7 @@ import java.awt.event.*;
 class ActionEventDemo implements ActionListener {
     JFrame frame=new JFrame();//creating object of JFrame class
     JButton button=new JButton("TTS");//Creating object of JButton class
+    JSlider rateSlider = new JSlider(0, 200, 120);
     JPanel panel = new JPanel();
 
     private ttsBase tts;
@@ -21,7 +22,7 @@ class ActionEventDemo implements ActionListener {
         frame.setTitle("My Window");//Setting title of JFrame
         frame.getContentPane().setLayout(null);//Setting Layout
         frame.setVisible(true);
-        frame.setBounds(200,200,400,400);//Setting Location and Size
+        frame.setBounds(400,400,800,800);//Setting Location and Size
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Setting default close operation
 
 
@@ -33,22 +34,23 @@ class ActionEventDemo implements ActionListener {
     }
 
     public void sliderProperties(){
-        JSlider rateSlider = new JSlider(0, 200, 120);
+        rateSlider.setBounds(260,400,100,40);
+        //rateSlider.setBounds
         rateSlider.setPaintTrack(true);
         rateSlider.setPaintTicks(true);
         rateSlider.setPaintLabels(true);
         // set spacing
         rateSlider.setMajorTickSpacing(50);
-        rateSlider.setMinorTickSpacing(5);
+        rateSlider.setMinorTickSpacing(10);
         frame.add(rateSlider);
         // setChangeListener
         //rateSlider.addChangeListener(s);
     }
 
     public void actionPerformed(ActionEvent e) { //action when button pressed
-        frame.getContentPane().setBackground(Color.green);
+        //frame.getContentPane().setBackground(Color.green);
 
-        tts.tts("I SPEAK NOW",125,95,10);
+        tts.tts("I SPEAK NOW",rateSlider.getValue(),95,10);
     }
 
     public void stateChanged(ChangeEvent e)
