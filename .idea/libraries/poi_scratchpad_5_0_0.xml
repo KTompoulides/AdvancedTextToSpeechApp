@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="poi-scratchpad-5.0.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/poi-scratchpad-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/poi-ooxml-lite-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/poi-ooxml-full-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/poi-ooxml-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/poi-integration-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/poi-excelant-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/poi-examples-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/poi-5.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/Libraries/apachePOI/docs/apidocs/dev" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="commons-codec-1.15">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/lib/commons-codec-1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/lib/commons-collections4-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/lib/commons-math3-3.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/lib/SparseBitSet-1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/Libraries/apachePOI/docs/apidocs/dev" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

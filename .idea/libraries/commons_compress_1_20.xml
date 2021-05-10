@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="commons-compress-1.20">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/ooxml-lib/commons-compress-1.20.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/ooxml-lib/curvesapi-1.06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Libraries/apachePOI/ooxml-lib/xmlbeans-4.0.0.jar!/" />
+      <root url="file://$PROJECT_DIR$/Libraries/apachePOI" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/Libraries/apachePOI/docs/apidocs/dev" />
+    </JAVADOC>
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/Libraries/apachePOI" recursive="false" />
+  </library>
+</component>
