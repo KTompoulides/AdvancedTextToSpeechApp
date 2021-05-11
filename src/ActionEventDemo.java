@@ -5,7 +5,8 @@ import java.awt.event.*;
 
 class ActionEventDemo implements ActionListener {
     JFrame frame=new JFrame();//creating object of JFrame class
-    JButton button=new JButton("TTS");//Creating object of JButton class
+    JButton button;//Creating object of JButton class
+    JButton button2;//Creating object of JButton class
     //slider control objects
     JSlider rateSlider = new JSlider(0, 200, 120);
     JSlider pitchSlider = new JSlider(0, 200, 95);
@@ -15,9 +16,15 @@ class ActionEventDemo implements ActionListener {
     JLabel pitchLabel = new JLabel();
     JLabel volumeLabel = new JLabel();
 
-    JTextField textBox;
+    JTextArea textBox;
 
     private ttsBase tts;
+
+    private enum Actions {
+        HELLO,
+        GOODBYE
+    }
+
 
     ActionEventDemo(){
         prepareGUI();//calling prepareGUI() method
@@ -32,19 +39,25 @@ class ActionEventDemo implements ActionListener {
         frame.setTitle("My Window");//Setting title of JFrame
         frame.getContentPane().setLayout(null);//Setting Layout
         frame.setVisible(true);
-        frame.setBounds(400,400,800,800);//Setting Location and Size
+        frame.setBounds(1000,800,1000,800);//Setting Location and Size
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Setting default close operation
 
 
     }
     public void buttonProperties(){
-        button.setBounds(230,550,100,40);//Setting location and size of button
+        button = new JButton("PLAY ALL");
+        button.setBounds(840,250,100,40);//Setting location and size of button
         frame.add(button);//adding button to the frame
         button.addActionListener(this);
+
+        button2 = new JButton("PLAY SELECTED");
+        button2.setBounds(840,200,140,40);//Setting location and size of button
+        frame.add(button2);//adding button to the frame
+        button2.addActionListener(this);
     }
 
     public void sliderProperties(){
-        rateSlider.setBounds(250,430,150,40); //Speech rate control
+        rateSlider.setBounds(825,50,150,40); //Speech rate control
         rateSlider.setPaintTrack(true);
         rateSlider.setPaintTicks(true);
         rateSlider.setPaintLabels(true);
@@ -52,7 +65,7 @@ class ActionEventDemo implements ActionListener {
         rateSlider.setMinorTickSpacing(20);
         frame.add(rateSlider);
 
-        pitchSlider.setBounds(250,380,150,40); //Speech pitch control
+        pitchSlider.setBounds(825,100,150,40); //Speech pitch control
         pitchSlider.setPaintTrack(true);
         pitchSlider.setPaintTicks(true);
         pitchSlider.setPaintLabels(true);
@@ -60,7 +73,7 @@ class ActionEventDemo implements ActionListener {
         pitchSlider.setMinorTickSpacing(20);
         frame.add(pitchSlider);
 
-        volumeSlider.setBounds(250,330,150,40); //Speech volume control
+        volumeSlider.setBounds(825,150,150,40); //Speech volume control
         volumeSlider.setPaintTrack(true);
         volumeSlider.setPaintTicks(true);
         volumeSlider.setPaintLabels(true);
@@ -71,30 +84,39 @@ class ActionEventDemo implements ActionListener {
     }
 
     public void labelProperties(){
-        rateLabel.setText("Speech Rate:");
-        rateLabel.setBounds(140,420,150,40);
+        rateLabel.setText("Speech Pitch:");
+        rateLabel.setBounds(700,90,150,40);
         frame.add(rateLabel);
 
-        pitchLabel.setText("Speech Pitch:");
-        pitchLabel.setBounds(140,370,150,40);
+        pitchLabel.setText("Speech Volume:");
+        pitchLabel.setBounds(700,140,150,40);
         frame.add(pitchLabel);
 
-        volumeLabel.setText("Speech Volume:");
-        volumeLabel.setBounds(140,320,150,40);
+        volumeLabel.setText("Speech Rate:");
+        volumeLabel.setBounds(700,40,150,40);
         frame.add(volumeLabel);
     }
 
     public void textBoxProperties() {
-        textBox = new JTextField("enter the text", 16);
-        textBox.setBounds(20,20,300,100);
+        textBox = new JTextArea();
+        textBox.setBounds(20,20,650,600);
+        textBox.setText("Type here!");
         frame.add(textBox);
 
     }
 
     public void actionPerformed(ActionEvent e) { //action when button pressed
-        //frame.getContentPane().setBackground(Color.green);
-        System.out.println(rateSlider.getValue());
-        tts.tts(textBox.getText(),rateSlider.getValue(),pitchSlider.getValue(),(float) volumeSlider.getValue()/100 );
+
+        Object source = e.getSource();
+        if(source.equals(button)){
+            tts.tts(textBox.getText(),rateSlider.getValue(),pitchSlider.getValue(),(float) volumeSlider.getValue()/100 );
+        }
+        else if (source.equals(button2)){
+            tts.tts(textBox.getSelectedText(),rateSlider.getValue(),pitchSlider.getValue(),(float) volumeSlider.getValue()/100 );
+        }
+
+
+
     }
 
     public void stateChanged(ChangeEvent e)
