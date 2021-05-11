@@ -17,7 +17,7 @@ class ActionEventDemo implements ActionListener {
 
     JTextArea textBox;
 
-    private ttsBase tts;
+    private TtsBase tts;
 
 
 
@@ -27,7 +27,7 @@ class ActionEventDemo implements ActionListener {
         sliderProperties();
         labelProperties();
         textBoxProperties();
-        tts = new ttsBase();
+        tts = new TtsBase();
     }
 
     public void prepareGUI(){
@@ -49,6 +49,7 @@ class ActionEventDemo implements ActionListener {
         button2.setBounds(840,200,140,40);//Setting location and size of button
         frame.add(button2);//adding button to the frame
         button2.addActionListener(this);
+
     }
 
     public void sliderProperties(){

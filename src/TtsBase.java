@@ -1,7 +1,7 @@
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 
-public class ttsBase {
+public class TtsBase {
     private static Voice voice;
 
     public static void tts(String inputText,int rate,int pitch,float volume){
