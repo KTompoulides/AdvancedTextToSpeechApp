@@ -5,7 +5,8 @@ public class ttsBase {
     private static Voice voice;
 
     public static void tts(String inputText,int rate,int pitch,float volume){
-        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory"); //
+        //System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_time_awb.alanvoicedirectory");
         //Voice voice;//Creating object of Voice class
         voice = VoiceManager.getInstance().getVoice("kevin");//Getting voice
         if (voice != null) {

@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
-import java.awt.*;
 import java.awt.event.*;
 
 class ActionEventDemo implements ActionListener {
@@ -20,10 +19,6 @@ class ActionEventDemo implements ActionListener {
 
     private ttsBase tts;
 
-    private enum Actions {
-        HELLO,
-        GOODBYE
-    }
 
 
     ActionEventDemo(){
@@ -121,7 +116,7 @@ class ActionEventDemo implements ActionListener {
 
     public void stateChanged(ChangeEvent e)
     {
-        //l.setText("value of Slider is =" + b.getValue());
+        System.out.println(e);
     }
 
 }
