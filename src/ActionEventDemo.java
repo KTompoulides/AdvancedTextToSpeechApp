@@ -6,8 +6,16 @@ import java.awt.event.*;
 class ActionEventDemo implements ActionListener {
     JFrame frame=new JFrame();//creating object of JFrame class
     JButton button=new JButton("TTS");//Creating object of JButton class
+    //slider control objects
     JSlider rateSlider = new JSlider(0, 200, 120);
-    JPanel panel = new JPanel();
+    JSlider pitchSlider = new JSlider(0, 200, 95);
+    JSlider volumeSlider = new JSlider(0, 100, 75);
+    //label objects for slider controls
+    JLabel rateLabel = new JLabel();
+    JLabel pitchLabel = new JLabel();
+    JLabel volumeLabel = new JLabel();
+
+    JTextField textBox;
 
     private ttsBase tts;
 
@@ -15,6 +23,8 @@ class ActionEventDemo implements ActionListener {
         prepareGUI();//calling prepareGUI() method
         buttonProperties();//Calling buttonProperties() method
         sliderProperties();
+        labelProperties();
+        textBoxProperties();
         tts = new ttsBase();
     }
 
@@ -28,29 +38,63 @@ class ActionEventDemo implements ActionListener {
 
     }
     public void buttonProperties(){
-        button.setBounds(130,200,100,40);//Setting location and size of button
+        button.setBounds(230,550,100,40);//Setting location and size of button
         frame.add(button);//adding button to the frame
         button.addActionListener(this);
     }
 
     public void sliderProperties(){
-        rateSlider.setBounds(260,400,100,40);
-        //rateSlider.setBounds
+        rateSlider.setBounds(250,430,150,40); //Speech rate control
         rateSlider.setPaintTrack(true);
         rateSlider.setPaintTicks(true);
         rateSlider.setPaintLabels(true);
-        // set spacing
-        rateSlider.setMajorTickSpacing(50);
-        rateSlider.setMinorTickSpacing(10);
+        rateSlider.setMajorTickSpacing(100);
+        rateSlider.setMinorTickSpacing(20);
         frame.add(rateSlider);
-        // setChangeListener
-        //rateSlider.addChangeListener(s);
+
+        pitchSlider.setBounds(250,380,150,40); //Speech pitch control
+        pitchSlider.setPaintTrack(true);
+        pitchSlider.setPaintTicks(true);
+        pitchSlider.setPaintLabels(true);
+        pitchSlider.setMajorTickSpacing(100);
+        pitchSlider.setMinorTickSpacing(20);
+        frame.add(pitchSlider);
+
+        volumeSlider.setBounds(250,330,150,40); //Speech volume control
+        volumeSlider.setPaintTrack(true);
+        volumeSlider.setPaintTicks(true);
+        volumeSlider.setPaintLabels(true);
+        volumeSlider.setMajorTickSpacing(100);
+        volumeSlider.setMinorTickSpacing(20);
+        frame.add(volumeSlider);
+
+    }
+
+    public void labelProperties(){
+        rateLabel.setText("Speech Rate:");
+        rateLabel.setBounds(140,420,150,40);
+        frame.add(rateLabel);
+
+        pitchLabel.setText("Speech Pitch:");
+        pitchLabel.setBounds(140,370,150,40);
+        frame.add(pitchLabel);
+
+        volumeLabel.setText("Speech Volume:");
+        volumeLabel.setBounds(140,320,150,40);
+        frame.add(volumeLabel);
+    }
+
+    public void textBoxProperties() {
+        textBox = new JTextField("enter the text", 16);
+        textBox.setBounds(20,20,300,100);
+        frame.add(textBox);
+
     }
 
     public void actionPerformed(ActionEvent e) { //action when button pressed
         //frame.getContentPane().setBackground(Color.green);
-
-        tts.tts("I SPEAK NOW",rateSlider.getValue(),95,10);
+        System.out.println(rateSlider.getValue());
+        tts.tts(textBox.getText(),rateSlider.getValue(),pitchSlider.getValue(),(float) volumeSlider.getValue()/100 );
     }
 
     public void stateChanged(ChangeEvent e)
