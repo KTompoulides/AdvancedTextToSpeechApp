@@ -7,6 +7,9 @@ public class MainClass {
         System.out.println(encr);
         ActionEventDemo aed = new ActionEventDemo();
 
+        /*swingTest st = new swingTest();
+        st.createWindow();*/
+
 
 
     }
