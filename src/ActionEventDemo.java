@@ -1,11 +1,16 @@
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
+import java.io.File;
 
 class ActionEventDemo implements ActionListener {
     JFrame frame=new JFrame();//creating object of JFrame class
     JButton button;//Creating object of JButton class
     JButton button2;//Creating object of JButton class
+    JButton button3;
+    JButton openButton;
+    JButton atbashButton;
     //slider control objects
     JSlider rateSlider = new JSlider(0, 200, 120);
     JSlider pitchSlider = new JSlider(0, 200, 95);
@@ -16,6 +21,7 @@ class ActionEventDemo implements ActionListener {
     JLabel volumeLabel = new JLabel();
 
     JTextArea textBox;
+    JScrollPane scrollableTextArea;
 
     private TtsBase tts;
 
@@ -49,6 +55,24 @@ class ActionEventDemo implements ActionListener {
         button2.setBounds(840,200,140,40);//Setting location and size of button
         frame.add(button2);//adding button to the frame
         button2.addActionListener(this);
+
+        button3 = new JButton("ENCRYPT ROT-13");
+        button3.setBounds(700,400,180,40);//Setting location and size of button
+        frame.add(button3);//adding button to the frame
+        button3.addActionListener(this);
+
+        openButton = new JButton("Open file");
+        openButton.setBounds(700,550,140,40);//Setting location and size of button
+        frame.add(openButton);//adding button to the frame
+        openButton.addActionListener(this);
+
+        atbashButton = new JButton("ENCRYPT ATBASH");
+        atbashButton.setBounds(700,450,180,40);//Setting location and size of button
+        frame.add(atbashButton);//adding button to the frame
+        atbashButton.addActionListener(this);
+
+
+
 
     }
 
@@ -95,9 +119,14 @@ class ActionEventDemo implements ActionListener {
 
     public void textBoxProperties() {
         textBox = new JTextArea();
-        textBox.setBounds(20,20,650,600);
-        textBox.setText("Type here!");
-        frame.add(textBox);
+        scrollableTextArea = new JScrollPane(textBox);
+        scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollableTextArea.setBounds(20,20,650,700);
+        //scrollableTextArea.setToolTipText("text");
+        //textBox.setBounds(20,20,650,600);
+        //textBox.setText("Type here!");
+        frame.add(scrollableTextArea);
 
     }
 
@@ -108,7 +137,38 @@ class ActionEventDemo implements ActionListener {
             tts.tts(textBox.getText(),rateSlider.getValue(),pitchSlider.getValue(),(float) volumeSlider.getValue()/100 );
         }
         else if (source.equals(button2)){
-            tts.tts(textBox.getSelectedText(),rateSlider.getValue(),pitchSlider.getValue(),(float) volumeSlider.getValue()/100 );
+            if(textBox.getSelectedText()==null || textBox.getSelectedText()==""){
+                JOptionPane.showMessageDialog(frame, "No text selected! \nPlease select some text");
+            }
+            else {
+                tts.tts(textBox.getSelectedText(), rateSlider.getValue(), pitchSlider.getValue(), (float) volumeSlider.getValue() / 100);
+            }
+        }
+
+        else  if (source.equals(button3)){
+            Encryptor enc = new Encryptor(textBox.getText());
+            enc.encryptROT13();
+            textBox.setText(enc.getEncryptedText());
+        }
+        else if(source.equals(openButton)){
+            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            int returnValue = fileChooser.showOpenDialog(null);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                documentManipulator docM = new documentManipulator(file);
+                if (!docM.openMSOfficeDocument()) JOptionPane.showMessageDialog(frame, "Unknown filetype! \nOnly .docx and .xlx documents are supported");
+                textBox.setText(docM.getPlainText());
+
+            }
+
+
+        }
+        else if(source.equals(atbashButton)){
+            Encryptor enc = new Encryptor(textBox.getText());
+            enc.encryptAtbash();
+            textBox.setText(enc.getEncryptedText());
+
         }
 
 
