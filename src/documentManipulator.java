@@ -77,7 +77,8 @@ public class documentManipulator {
                             default:
                         }
                     }
-                    //System.out.println("");
+                    System.out.println("");
+                    plainText += "\n";
                 }
 
             }else {
