@@ -3,6 +3,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
 
 class ActionEventDemo implements ActionListener {
     JFrame frame=new JFrame();//creating object of JFrame class
@@ -11,6 +12,7 @@ class ActionEventDemo implements ActionListener {
     JButton button3;
     JButton openButton;
     JButton atbashButton;
+    JButton playButton;
     //slider control objects
     JSlider rateSlider = new JSlider(0, 200, 120);
     JSlider pitchSlider = new JSlider(0, 200, 95);
@@ -22,6 +24,9 @@ class ActionEventDemo implements ActionListener {
 
     JTextArea textBox;
     JScrollPane scrollableTextArea;
+
+    private actionRecorder recorder = new actionRecorder();
+    private boolean playbackActive = false;
 
     private TtsBase tts;
 
@@ -70,6 +75,11 @@ class ActionEventDemo implements ActionListener {
         atbashButton.setBounds(700,450,180,40);//Setting location and size of button
         frame.add(atbashButton);//adding button to the frame
         atbashButton.addActionListener(this);
+
+        playButton = new JButton("PLAY");
+        playButton.setBounds(700,350,180,40);//Setting location and size of button
+        frame.add(playButton);//adding button to the frame
+        playButton.addActionListener(this);
 
 
 
@@ -124,6 +134,7 @@ class ActionEventDemo implements ActionListener {
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollableTextArea.setBounds(20,20,650,700);
         //scrollableTextArea.setToolTipText("text");
+        //scrollableTextArea.setToolTipText("text");
         //textBox.setBounds(20,20,650,600);
         //textBox.setText("Type here!");
         frame.add(scrollableTextArea);
@@ -131,8 +142,63 @@ class ActionEventDemo implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) { //action when button pressed
+        ArrayList<Object> sourceList = null;
 
         Object source = e.getSource();
+        recorder.addAction(source);
+
+        if(source.equals(button)){
+            tts.tts(textBox.getText(),rateSlider.getValue(),pitchSlider.getValue(),(float) volumeSlider.getValue()/100 );
+        }
+        else if (source.equals(button2)){
+            if(textBox.getSelectedText()==null || textBox.getSelectedText()==""){
+                JOptionPane.showMessageDialog(frame, "No text selected! \nPlease select some text");
+            }
+            else {
+                tts.tts(textBox.getSelectedText(), rateSlider.getValue(), pitchSlider.getValue(), (float) volumeSlider.getValue() / 100);
+            }
+        }
+
+        else  if (source.equals(button3)){
+            Encryptor enc = new Encryptor(textBox.getText());
+            enc.encryptROT13();
+            textBox.setText(enc.getEncryptedText());
+        }
+        else if(source.equals(openButton)){
+            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            int returnValue = fileChooser.showOpenDialog(null);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                documentManipulator docM = new documentManipulator(file);
+                if (!docM.openMSOfficeDocument()) JOptionPane.showMessageDialog(frame, "Unknown filetype! \nOnly .docx and .xlx documents are supported");
+                textBox.setText(docM.getPlainText());
+
+            }
+
+
+        }
+        else if(source.equals(atbashButton)){
+            Encryptor enc = new Encryptor(textBox.getText());
+            enc.encryptAtbash();
+            textBox.setText(enc.getEncryptedText());
+
+        }
+        else if(source.equals(playButton)){
+            while(!recorder.counterMaxed()){
+                actionPlayback(recorder.getNextAction());
+            }
+
+
+        }
+
+
+
+    }
+
+    public void actionPlayback(Object source) { //action when button pressed
+
+
         if(source.equals(button)){
             tts.tts(textBox.getText(),rateSlider.getValue(),pitchSlider.getValue(),(float) volumeSlider.getValue()/100 );
         }
@@ -173,11 +239,14 @@ class ActionEventDemo implements ActionListener {
 
 
 
+
     }
 
     public void stateChanged(ChangeEvent e)
     {
-        System.out.println(e);
+        System.out.println(e.getSource());
+
+        recorder.addAction(e.getSource());
     }
 
 }
