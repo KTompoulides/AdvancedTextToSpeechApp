@@ -1,11 +1,11 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
+import javax.swing.event.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 
-class ActionEventDemo implements ActionListener {
+class ActionEventDemo implements ActionListener,ChangeListener {
     JFrame frame=new JFrame();//creating object of JFrame class
     JButton button;//Creating object of JButton class
     JButton button2;//Creating object of JButton class
@@ -76,7 +76,7 @@ class ActionEventDemo implements ActionListener {
         frame.add(atbashButton);//adding button to the frame
         atbashButton.addActionListener(this);
 
-        playButton = new JButton("PLAY");
+        playButton = new JButton("ACTIONS REPLAY");
         playButton.setBounds(700,350,180,40);//Setting location and size of button
         frame.add(playButton);//adding button to the frame
         playButton.addActionListener(this);
@@ -93,6 +93,7 @@ class ActionEventDemo implements ActionListener {
         rateSlider.setPaintLabels(true);
         rateSlider.setMajorTickSpacing(100);
         rateSlider.setMinorTickSpacing(20);
+        rateSlider.addChangeListener(this);
         frame.add(rateSlider);
 
         pitchSlider.setBounds(825,100,150,40); //Speech pitch control
@@ -101,6 +102,7 @@ class ActionEventDemo implements ActionListener {
         pitchSlider.setPaintLabels(true);
         pitchSlider.setMajorTickSpacing(100);
         pitchSlider.setMinorTickSpacing(20);
+        pitchSlider.addChangeListener(this);
         frame.add(pitchSlider);
 
         volumeSlider.setBounds(825,150,150,40); //Speech volume control
@@ -109,6 +111,7 @@ class ActionEventDemo implements ActionListener {
         volumeSlider.setPaintLabels(true);
         volumeSlider.setMajorTickSpacing(100);
         volumeSlider.setMinorTickSpacing(20);
+        volumeSlider.addChangeListener(this);
         frame.add(volumeSlider);
 
     }
@@ -170,6 +173,7 @@ class ActionEventDemo implements ActionListener {
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
+                recorder.addAction(file);
                 documentManipulator docM = new documentManipulator(file);
                 if (!docM.openMSOfficeDocument()) JOptionPane.showMessageDialog(frame, "Unknown filetype! \nOnly .docx and .xlx documents are supported");
                 textBox.setText(docM.getPlainText());
@@ -217,11 +221,11 @@ class ActionEventDemo implements ActionListener {
             textBox.setText(enc.getEncryptedText());
         }
         else if(source.equals(openButton)){
-            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            int returnValue = fileChooser.showOpenDialog(null);
+            //JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            //int returnValue = fileChooser.showOpenDialog(null);
 
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
+            if (true) {
+                File file = (File) recorder.getNextAction();
                 documentManipulator docM = new documentManipulator(file);
                 if (!docM.openMSOfficeDocument()) JOptionPane.showMessageDialog(frame, "Unknown filetype! \nOnly .docx and .xlx documents are supported");
                 textBox.setText(docM.getPlainText());
@@ -237,6 +241,20 @@ class ActionEventDemo implements ActionListener {
 
         }
 
+        else if(source.equals(volumeSlider)){
+            JSlider js = (JSlider) source;
+            System.out.println("VOLUME SLIDER PLAYBACK!!! " + js.getValue() );
+            volumeSlider.setValue(js.getValue());
+        }
+        else if(source.equals(rateSlider)){
+            JSlider js = (JSlider) source;
+            rateSlider.setValue(js.getValue());
+        }
+        else if(source.equals(pitchSlider)){
+            JSlider js = (JSlider) source;
+            pitchSlider.setValue(js.getValue());
+        }
+
 
 
 
@@ -244,7 +262,7 @@ class ActionEventDemo implements ActionListener {
 
     public void stateChanged(ChangeEvent e)
     {
-        System.out.println(e.getSource());
+        //System.out.println(e.getSource());
 
         recorder.addAction(e.getSource());
     }
