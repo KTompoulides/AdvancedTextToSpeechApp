@@ -1,4 +1,3 @@
-package textToAudio;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -106,10 +105,6 @@ public class SaveFile implements ActionListener {
 	  	
 	  }
   
-  
-  public static void main(String[] args) {
-    save();
-  }
 
 }
 

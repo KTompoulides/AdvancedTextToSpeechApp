@@ -1,5 +1,3 @@
-package textToAudio;
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -161,10 +159,6 @@ public class OpenFile implements ActionListener {
 	
 	
 
-	public static void main(String[] args) {
-		createWindow();
-		
-		
-	}
+
 	   
 } 

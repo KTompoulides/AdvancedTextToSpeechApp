@@ -1,8 +1,13 @@
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 class ActionEventDemo implements ActionListener,ChangeListener {
@@ -13,6 +18,7 @@ class ActionEventDemo implements ActionListener,ChangeListener {
     JButton openButton;
     JButton atbashButton;
     JButton playButton;
+    JButton saveButton;
     //slider control objects
     JSlider rateSlider = new JSlider(0, 200, 120);
     JSlider pitchSlider = new JSlider(0, 200, 95);
@@ -70,6 +76,11 @@ class ActionEventDemo implements ActionListener,ChangeListener {
         openButton.setBounds(700,550,140,40);//Setting location and size of button
         frame.add(openButton);//adding button to the frame
         openButton.addActionListener(this);
+
+        saveButton = new JButton("Save file");
+        saveButton.setBounds(700,250,140,40);//Setting location and size of button
+        frame.add(saveButton);//adding button to the frame
+        saveButton.addActionListener(this);
 
         atbashButton = new JButton("ENCRYPT ATBASH");
         atbashButton.setBounds(700,450,180,40);//Setting location and size of button
@@ -194,6 +205,46 @@ class ActionEventDemo implements ActionListener,ChangeListener {
             }
 
 
+        }
+
+        else if(source.equals(saveButton)){
+            JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+            j.setDialogType(JFileChooser.SAVE_DIALOG);
+            j.setFileFilter(new FileNameExtensionFilter(".xlsx","xlsx"));
+            // j.setFileFilter(new FileNameExtensionFilter(".docx","docx"));
+
+
+            int ret = j.showSaveDialog(saveButton);
+
+
+            if (ret == JFileChooser.APPROVE_OPTION) {
+
+                File file = j.getSelectedFile();
+
+                String file1 = j.getSelectedFile().toString();
+
+                if (!file1 .endsWith(".xlsx")) {
+                    file1 += ".xlsx";
+                }
+
+
+                System.out.println(file1);
+
+                try {
+
+                    FileOutputStream outputFile = new FileOutputStream(file1);
+                    XSSFWorkbook excel = new XSSFWorkbook();
+                    XSSFSheet sheet = excel.createSheet();
+                    excel.write(outputFile);
+                    excel.close();
+
+                }catch(Exception e1) {
+                    System.out.println("Error");
+                    JOptionPane.showMessageDialog(frame, "ERROR!");
+                }
+
+            }
         }
 
 
