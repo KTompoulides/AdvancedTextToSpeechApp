@@ -20,7 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 
 class ActionEventDemo implements ActionListener,ChangeListener {
-    JFrame frame=new JFrame();//creating object of JFrame class
+    JFrame frame = new JFrame();//creating object of JFrame class
+    JPanel panel = new JPanel();
     JButton button;//Creating object of JButton class
     JButton button2;//Creating object of JButton class
     JButton button3;
@@ -40,6 +41,7 @@ class ActionEventDemo implements ActionListener,ChangeListener {
     JTextArea textBox;
     JScrollPane scrollableTextArea;
 
+
     private actionRecorder recorder = new actionRecorder();
     private boolean playbackActive = false;
 
@@ -51,7 +53,7 @@ class ActionEventDemo implements ActionListener,ChangeListener {
         prepareGUI();//calling prepareGUI() method
         buttonProperties();//Calling buttonProperties() method
         sliderProperties();
-        labelProperties();
+        //labelProperties();
         textBoxProperties();
         tts = new TtsBase();
     }
@@ -59,9 +61,26 @@ class ActionEventDemo implements ActionListener,ChangeListener {
     public void prepareGUI(){
         frame.setTitle("My Window");//Setting title of JFrame
         frame.getContentPane().setLayout(null);//Setting Layout
+        frame.setSize(1050, 800);
+        frame.setLocationRelativeTo(null);
+        //frame.setBounds(1000,800,1000,800);//Setting Location and Size
+
+        volumeLabel.setText("Speech Rate:");
+        volumeLabel.setBounds(700,40,150,40);
+        frame.add(volumeLabel);
+
+        rateLabel.setText("Speech Pitch:");
+        rateLabel.setBounds(700,90,150,40);
+        frame.add(rateLabel);
+
+
+        pitchLabel.setText("Speech Volume:");
+        pitchLabel.setBounds(700,140,150,40);
+        frame.add(pitchLabel);
+
         frame.setVisible(true);
-        frame.setBounds(1000,800,1000,800);//Setting Location and Size
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Setting default close operation
+
 
 
     }
@@ -103,7 +122,6 @@ class ActionEventDemo implements ActionListener,ChangeListener {
 
 
 
-
     }
 
     public void sliderProperties(){
@@ -136,31 +154,22 @@ class ActionEventDemo implements ActionListener,ChangeListener {
 
     }
 
-    public void labelProperties(){
-        rateLabel.setText("Speech Pitch:");
-        rateLabel.setBounds(700,90,150,40);
-        frame.add(rateLabel);
-
-        pitchLabel.setText("Speech Volume:");
-        pitchLabel.setBounds(700,140,150,40);
-        frame.add(pitchLabel);
-
-        volumeLabel.setText("Speech Rate:");
-        volumeLabel.setBounds(700,40,150,40);
-        frame.add(volumeLabel);
-    }
 
     public void textBoxProperties() {
         textBox = new JTextArea();
         scrollableTextArea = new JScrollPane(textBox);
         scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+
         scrollableTextArea.setBounds(20,20,650,700);
+
         //scrollableTextArea.setToolTipText("text");
         //scrollableTextArea.setToolTipText("text");
         //textBox.setBounds(20,20,650,600);
         //textBox.setText("Type here!");
         frame.add(scrollableTextArea);
+        frame.setVisible(true);
 
     }
 
@@ -221,6 +230,7 @@ class ActionEventDemo implements ActionListener,ChangeListener {
                     XSSFWorkbook excel = new XSSFWorkbook(inputFile);
                     XSSFSheet ExcelSheet = excel.getSheetAt(0);
                     Iterator<Row> iterator = ExcelSheet.iterator();
+                    textBox.setText("");
 
 
                     while (iterator.hasNext()) {
@@ -236,10 +246,12 @@ class ActionEventDemo implements ActionListener,ChangeListener {
                             {
                                 case STRING:
                                     textBox.append(ExcelCell.getStringCellValue() + "\t" );
+                                    System.out.println(ExcelCell.getStringCellValue() + "\t" + "\n" );
                                     break;
 
                                 case NUMERIC:
                                     textBox.append(ExcelCell.getNumericCellValue() + "\t");
+                                    System.out.println(ExcelCell.getNumericCellValue() + "\t");
                                     break;
 
                                 case BOOLEAN:
@@ -257,7 +269,6 @@ class ActionEventDemo implements ActionListener,ChangeListener {
 
                     JOptionPane.showMessageDialog(frame, "Unknown filetype! \nOnly .docx and .xlx documents are supported");
                 }
-
 
 
 
@@ -286,8 +297,8 @@ class ActionEventDemo implements ActionListener,ChangeListener {
             JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 
             j.setDialogType(JFileChooser.SAVE_DIALOG);
-            //j.setFileFilter(new FileNameExtensionFilter(".xlsx","xlsx"));
-            //j.setFileFilter(new FileNameExtensionFilter(".docx","docx"));
+            j.setFileFilter(new FileNameExtensionFilter(".xlsx","xlsx"));
+            j.setFileFilter(new FileNameExtensionFilter(".docx","docx"));
 
 
 
@@ -298,14 +309,25 @@ class ActionEventDemo implements ActionListener,ChangeListener {
 
                 File file = j.getSelectedFile();
 
-                String lastChar = file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4);
-                System.out.println(lastChar);
+                String extension=j.getFileFilter().getDescription();
 
+                System.out.println(extension);
+
+                // String lastChar = file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4);
+                // System.out.println(lastChar);
 
 
                 try {
 
-                    if(lastChar.endsWith("docx")) {
+                    if(extension.equals(".docx")) {
+
+                        String lastChar = file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4);
+
+                        if(!lastChar.endsWith("docx")) {
+
+                            file = new File(j.getSelectedFile() + ".docx");
+
+                        }
 
                         FileOutputStream OutputFile = new FileOutputStream(file.getAbsolutePath());
                         XWPFDocument document = new XWPFDocument();
@@ -315,7 +337,15 @@ class ActionEventDemo implements ActionListener,ChangeListener {
                         document.write(new FileOutputStream(new File(file.getAbsolutePath())));
                         OutputFile.close();
 
-                    }else if(lastChar.endsWith("xlsx")) {
+                    }else if(extension.equals(".xlsx")) {
+
+                        String lastChar = file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4);
+
+                        if(!lastChar.endsWith("xlsx")) {
+
+                            file = new File(j.getSelectedFile() + ".xlsx");
+
+                        }
 
                         FileOutputStream outputFile = new FileOutputStream(file);
                         XSSFWorkbook excel = new XSSFWorkbook();
@@ -330,9 +360,9 @@ class ActionEventDemo implements ActionListener,ChangeListener {
 
                         int rowCount = -1;
 
-                        for (String aBook : lines) {
+                        for (String ExcelLines : lines) {
                             Row row = sheet.createRow(++rowCount);
-                            String[] splLines = aBook.split("\t");
+                            String[] splLines = ExcelLines.split("\t");
                             int columnCount = -1;
 
                             for (String field : splLines) {
