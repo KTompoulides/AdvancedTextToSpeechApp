@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.junit.Test;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -54,10 +55,10 @@ class ActionEventDemo implements ActionListener,ChangeListener {
         buttonProperties();//Calling buttonProperties() method
         sliderProperties();
         //labelProperties();
-        textBoxProperties();
+        //textBoxProperties();
         tts = new TtsBase();
     }
-
+    
     public void prepareGUI(){
         frame.setTitle("My Window");//Setting title of JFrame
         frame.getContentPane().setLayout(null);//Setting Layout
@@ -77,6 +78,8 @@ class ActionEventDemo implements ActionListener,ChangeListener {
         pitchLabel.setText("Speech Volume:");
         pitchLabel.setBounds(700,140,150,40);
         frame.add(pitchLabel);
+
+        textBoxProperties();
 
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Setting default close operation
@@ -174,7 +177,6 @@ class ActionEventDemo implements ActionListener,ChangeListener {
     }
 
     public void actionPerformed(ActionEvent e) { //action when button pressed
-        ArrayList<Object> sourceList = null;
 
         Object source = e.getSource();
         recorder.addAction(source);
