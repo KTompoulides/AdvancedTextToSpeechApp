@@ -20,9 +20,7 @@ public class MSWordOpenerTest {
 	@Test
 	public void testGetFileContents() {
 		
-		JFileChooser chooser = new JFileChooser();
-		chooser.showOpenDialog(null);
-		File f = chooser.getSelectedFile();
+		File f = new File("./AdvancedTextToSpeechApp-master/Test/test.docx");
 
 		
 		try {
