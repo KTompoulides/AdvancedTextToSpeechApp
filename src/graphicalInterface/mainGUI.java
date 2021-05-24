@@ -1,11 +1,12 @@
 package graphicalInterface;
 
+import actionRepeater.ActionPlayback;
+import actionRepeater.ActionRecorder;
 import encodingControl.encodingFactory;
 import encodingControl.encodingInterface;
 import fileOpener.openerFactory;
 import fileOpener.openerInterface;
 import fileSaver.*;
-import speechControl.FreeTTSAdapter;
 import speechControl.TextToSpeechAPI;
 import speechControl.ttsFactory;
 
@@ -17,7 +18,6 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.logging.Logger;
 
 public class mainGUI implements ActionListener, ChangeListener
 {
@@ -31,6 +31,8 @@ public class mainGUI implements ActionListener, ChangeListener
     private JButton openButton;
     private JButton atbashButton;
     private JButton playButton;
+    private JButton recordButton;
+    private JButton clearButton;
     private JButton saveButton;
     //slider control objects
     private JSlider volumeSlider = new JSlider(0, 100, 80);
@@ -43,12 +45,16 @@ public class mainGUI implements ActionListener, ChangeListener
 
     private JTextArea textBox;
     private JScrollPane scrollableTextArea;
+    private Boolean recordEnabled = false;
 
     private TextToSpeechAPI tts;
     private encodingInterface atbashEncoder;
     private encodingInterface rot13Encoder;
     private openerInterface wordOpener;
     private openerInterface excelOpener;
+    private ActionRecorder recorder;
+
+    private Object[] objectToCheck;
 
 
     public void prepareGUI(){
@@ -56,6 +62,7 @@ public class mainGUI implements ActionListener, ChangeListener
         tts = ttsFactory.createTextToSpeechAPI("FreeTTSAdapter");
         atbashEncoder = encodingFactory.createEncodingClass("atbash");
         rot13Encoder = encodingFactory.createEncodingClass("rot13");
+        recorder = new ActionRecorder();
 
 
 
@@ -124,6 +131,15 @@ public class mainGUI implements ActionListener, ChangeListener
         frame.add(playButton);//adding button to the frame
         playButton.addActionListener(this);
 
+        recordButton = new JButton("ACTIONS RECORD");
+        recordButton.setBounds(700,300,180,40);//Setting location and size of button
+        frame.add(recordButton);//adding button to the frameREPLAY
+        recordButton.addActionListener(this);
+
+        clearButton = new JButton("ACTIONS CLEAR");
+        clearButton.setBounds(700,600,180,40);//Setting location and size of button
+        frame.add(clearButton);//adding button to the frameREPLAY
+        clearButton.addActionListener(this);
 
 
     }
@@ -182,10 +198,13 @@ public class mainGUI implements ActionListener, ChangeListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("ACTION!!!!"+e.getSource());
         Object source = e.getSource();
+        if (recordEnabled) recorder.addAction(e);
 
         if(source.equals(playAllButton)){
             tts.playTts(textBox.getText());
+
         }
         else if (source.equals(playSelectedButton)){
             if(textBox.getSelectedText()==null || textBox.getSelectedText()==""){
@@ -194,6 +213,22 @@ public class mainGUI implements ActionListener, ChangeListener
             else {
                 tts.playTts(textBox.getSelectedText());
             }
+        }
+
+        else if(source.equals(recordButton)){
+            recordEnabled = true;
+        }
+        else if(source.equals(playButton)){
+            recordEnabled = false;
+            ActionPlayback player = new ActionPlayback();
+            player.replayActions(recorder);
+
+
+        }
+        else if(source.equals(clearButton)){
+            recordEnabled = false;
+            recorder.clearActions();
+
         }
 
         else  if (source.equals(rot13Button)){
@@ -269,6 +304,8 @@ public class mainGUI implements ActionListener, ChangeListener
     public void stateChanged(ChangeEvent e) {
 
         Object slider = e.getSource(); //updates voice parameters when slider is moved
+        //if (recordEnabled) recorder.addAction(e);
+
         if(slider.equals(volumeSlider)){
             tts.setVolume(volumeSlider.getValue());
         }

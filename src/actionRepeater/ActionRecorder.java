@@ -1,26 +1,21 @@
-package leagacyStuff;
+package actionRepeater;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-public class actionRecorder {
-
+public class ActionRecorder {
     //private Object action;
-    private ArrayList<Object> actionsList = new ArrayList<Object>();
+    private ArrayList<ActionEvent> actionsList = new ArrayList<ActionEvent>();
     private int counter = 0;
     //private ArrayList<Integer> volumeSliderChanges = new ArrayList<Integer>();
 
 
-    public actionRecorder(){
-        actionsList.clear();
+
+    public void addAction(ActionEvent action){
+        actionsList.add(action);
     }
 
-    public void addAction(Object action){
-        Object act = new Object();
-        act = action;
-        actionsList.add(act);
-    }
-
-    public ArrayList<Object> getActionsList(){
+    public ArrayList<ActionEvent> getActionsList(){
         return actionsList;
     }
 
@@ -50,6 +45,4 @@ public class actionRecorder {
         if(counter == actionsList.size()) return true;
         return false;
     }
-
-
 }
