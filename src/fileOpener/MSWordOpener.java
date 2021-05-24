@@ -17,7 +17,7 @@ public class MSWordOpener implements  openerInterface {
             XWPFDocument document = new XWPFDocument(inputFile);
             List<XWPFParagraph> paragraphs = document.getParagraphs();
             for (int i = 0; i < paragraphs.size(); i++) {
-                outString = (paragraphs.get(i).getParagraphText());
+                outString += (paragraphs.get(i).getParagraphText());
             }
             inputFile.close();
 
