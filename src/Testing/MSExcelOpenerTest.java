@@ -1,0 +1,67 @@
+package Testing;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Iterator;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.jupiter.api.Test;
+
+public class MSExcelOpenerTest {
+
+	@Test
+	public void testGetFileContents() {
+		
+		File f = new File("./AdvancedTextToSpeechApp-master/Test/test.xlsx");
+		
+		String outString = "";
+		
+		
+		
+        try {
+            FileInputStream inputFile = new FileInputStream(f.getAbsolutePath());
+            XSSFWorkbook excel = new XSSFWorkbook(inputFile);
+            XSSFSheet ExcelSheet = excel.getSheetAt(0);
+            Iterator<Row> iterator = ExcelSheet.iterator();
+
+
+            while (iterator.hasNext()) {
+
+                Row ExcelRow = iterator.next();
+                Iterator<Cell> cellIterator = ExcelRow.cellIterator();
+
+                while (cellIterator.hasNext()) {
+
+                    Cell ExcelCell = cellIterator.next();
+
+                    switch (ExcelCell.getCellType()) {
+                        case STRING:
+                            outString += (ExcelCell.getStringCellValue() + "\t");
+                            break;
+
+                        case NUMERIC:
+                            outString += (ExcelCell.getNumericCellValue() + "\t");
+                            break;
+
+                        case BOOLEAN:
+                            outString += (ExcelCell + "\t");
+                            break;
+
+                        default:
+                    }
+                }
+                outString += (" " + "\n");
+
+            }
+        } catch (Exception e2) {
+            System.out.println("File not found \ngeneral I/O Error");
+         
+        }
+	}
+
+}
