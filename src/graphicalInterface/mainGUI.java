@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.logging.Logger;
 
 public class mainGUI implements ActionListener, ChangeListener
 {
@@ -32,9 +33,9 @@ public class mainGUI implements ActionListener, ChangeListener
     private JButton playButton;
     private JButton saveButton;
     //slider control objects
-    private JSlider rateSlider = new JSlider(0, 200, 120);
-    private JSlider pitchSlider = new JSlider(0, 200, 95);
-    private JSlider volumeSlider = new JSlider(0, 100, 75);
+    private JSlider volumeSlider = new JSlider(0, 100, 80);
+    private JSlider pitchSlider = new JSlider(0, 200, 80);
+    private JSlider rateSlider = new JSlider(0, 200, 80);
     //label objects for slider controls
     private JLabel rateLabel = new JLabel();
     private JLabel pitchLabel = new JLabel();
@@ -232,6 +233,7 @@ public class mainGUI implements ActionListener, ChangeListener
 
         }
         else if(source.equals(saveButton)){
+
             JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
             j.setDialogType(JFileChooser.SAVE_DIALOG);
             j.setFileFilter(new FileNameExtensionFilter(".xlsx","xlsx"));
@@ -265,6 +267,18 @@ public class mainGUI implements ActionListener, ChangeListener
     }
 
     public void stateChanged(ChangeEvent e) {
+
+        Object slider = e.getSource(); //updates voice parameters when slider is moved
+        if(slider.equals(volumeSlider)){
+            tts.setVolume(volumeSlider.getValue());
+        }
+        else if(slider.equals(rateSlider)){
+            tts.setRate(rateSlider.getValue());
+        }
+        else if(slider.equals(pitchSlider)){
+            tts.setPitch(pitchSlider.getValue());
+        }
+
 
     }
 

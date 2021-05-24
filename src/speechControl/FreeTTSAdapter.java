@@ -38,6 +38,7 @@ public class FreeTTSAdapter implements TextToSpeechAPI{
 
     @Override
     public void setRate(int rate) {
+
         voice.setRate((float) rate);
     }
 
