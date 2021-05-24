@@ -2,6 +2,9 @@ package graphicalInterface;
 
 import encodingControl.encodingFactory;
 import encodingControl.encodingInterface;
+import fileOpener.openerFactory;
+import fileOpener.openerInterface;
+import fileSaver.*;
 import speechControl.FreeTTSAdapter;
 import speechControl.TextToSpeechAPI;
 import speechControl.ttsFactory;
@@ -9,8 +12,11 @@ import speechControl.ttsFactory;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class mainGUI implements ActionListener, ChangeListener
 {
@@ -40,9 +46,12 @@ public class mainGUI implements ActionListener, ChangeListener
     private TextToSpeechAPI tts;
     private encodingInterface atbashEncoder;
     private encodingInterface rot13Encoder;
+    private openerInterface wordOpener;
+    private openerInterface excelOpener;
 
 
     public void prepareGUI(){
+        //factories init maybe move it to another method?
         tts = ttsFactory.createTextToSpeechAPI("FreeTTSAdapter");
         atbashEncoder = encodingFactory.createEncodingClass("atbash");
         rot13Encoder = encodingFactory.createEncodingClass("rot13");
@@ -194,9 +203,67 @@ public class mainGUI implements ActionListener, ChangeListener
             textBox.setText(atbashEncoder.encode(textBox.getText()));
         }
 
+        else if(source.equals(openButton)){
+            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(".docx", "docx"));
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(".xlsx", "xlsx"));
+            fileChooser.showOpenDialog(null);
+
+            File file = fileChooser.getSelectedFile();
+            if (file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4).endsWith("docx")){
+                wordOpener = openerFactory.createOpener("word");
+                String textToDisplay = wordOpener.getFileContents(file);
+                if (textToDisplay!=null) textBox.setText(textToDisplay);
+                else JOptionPane.showMessageDialog(frame, "General I/O Error \nCannot open file!");
+
+
+
+            }
+            else if (file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4).endsWith("xlsx")){
+                excelOpener = openerFactory.createOpener("excel");
+                String textToDisplay = excelOpener.getFileContents(file);
+                if (textToDisplay!=null) textBox.setText(textToDisplay);
+                else JOptionPane.showMessageDialog(frame, "General I/O Error \nCannot open file!");
+
+            }
+            else{
+                JOptionPane.showMessageDialog(frame, "Unknown filetype! \nOnly .docx and .xlsx documents are supported");
+            }
+
+        }
+        else if(source.equals(saveButton)){
+            JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            j.setDialogType(JFileChooser.SAVE_DIALOG);
+            j.setFileFilter(new FileNameExtensionFilter(".xlsx","xlsx"));
+            j.setFileFilter(new FileNameExtensionFilter(".docx","docx"));
+            int ret = j.showSaveDialog(saveButton);
+
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                File file = j.getSelectedFile();
+                String extension = j.getFileFilter().getDescription();
+
+                if (extension.equals(".docx")) {
+                    file = new File(j.getSelectedFile() + ".docx");
+                    saverInterface wordSaver = saverFactory.createSaver("word");
+                    if (!wordSaver.writeContentsToFile(file, textBox.getText())) {
+                        JOptionPane.showMessageDialog(frame, "Cannot write file to disk! \nCheck permissions");
+                    }
+                } else if (extension.equals(".xlsx")) {
+                    file = new File(j.getSelectedFile() + ".xlsx");
+                    saverInterface excelSaver = saverFactory.createSaver("excel");
+                    if (!excelSaver.writeContentsToFile(file, textBox.getText())) {
+                        JOptionPane.showMessageDialog(frame, "Cannot write file to disk! \nCheck permissions");
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(frame, "This error message shouldn't be displayed!");
+                }
+            }
+
+        }
+
     }
 
-    @Override
     public void stateChanged(ChangeEvent e) {
 
     }

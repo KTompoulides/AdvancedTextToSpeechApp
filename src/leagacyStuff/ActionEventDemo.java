@@ -1,3 +1,9 @@
+package leagacyStuff;
+
+import leagacyStuff.Encryptor;
+import leagacyStuff.TtsBase;
+import leagacyStuff.actionRecorder;
+import leagacyStuff.documentManipulator;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -5,7 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.junit.Test;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -13,10 +18,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

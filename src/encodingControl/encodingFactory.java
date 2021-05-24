@@ -1,8 +1,5 @@
 package encodingControl;
 
-import speechControl.FreeTTSAdapter;
-import speechControl.TextToSpeechAPI;
-
 public class encodingFactory {
     public static encodingInterface createEncodingClass(String name) {
         if (name.equals("atbash")) {
