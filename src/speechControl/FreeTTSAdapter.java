@@ -7,6 +7,7 @@ public class FreeTTSAdapter implements TextToSpeechAPI{
 
     private Voice voice;
     private VoiceManager voiceManager;
+    private String stuffToPLay;
 
     public FreeTTSAdapter(){
         System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
@@ -55,5 +56,10 @@ public class FreeTTSAdapter implements TextToSpeechAPI{
     @Override
     public int getRate() {
         return (int) voice.getRate();
+    }
+    
+    @Override
+    public String getStuffToPLay(){ //νέα μέθοδος για να ελέγξουμε αν περνάει το string στην ttsPlay()
+        return stuffToPLay;
     }
 }

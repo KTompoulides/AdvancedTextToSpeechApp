@@ -19,4 +19,6 @@ public interface TextToSpeechAPI {
     public int getPitch();
 
     public int getRate();
+    
+    public String getStuffToPLay();
 }
