@@ -49,6 +49,7 @@ public class MainGUI implements ActionListener, ChangeListener
     private JLabel rateLabel = new JLabel();
     private JLabel pitchLabel = new JLabel();
     private JLabel volumeLabel = new JLabel();
+    private JLabel audioLabel = new JLabel();
 
     private JTextArea textBox;
     private Boolean recordEnabled = false;
@@ -71,7 +72,7 @@ public class MainGUI implements ActionListener, ChangeListener
     public void prepareGUI(){
         frame.setTitle("Advanced TTS Application");//Setting title of JFrame
         frame.getContentPane().setLayout(null);//Setting Layout
-        frame.setSize(1050, 800);
+        frame.setSize(1100, 800);
         frame.setLocationRelativeTo(null);
         //frame.setBounds(1000,800,1000,800);//Setting Location and Size
 
@@ -88,6 +89,10 @@ public class MainGUI implements ActionListener, ChangeListener
         pitchLabel.setBounds(700,140,150,40);
         frame.add(pitchLabel);
 
+        pitchLabel.setText("Speech Transform Controls");
+        pitchLabel.setBounds(755,05,200,40);
+        frame.add(pitchLabel);
+
         textBoxProperties();
         sliderProperties();
         buttonProperties();
@@ -99,13 +104,13 @@ public class MainGUI implements ActionListener, ChangeListener
 
     }
     public void buttonProperties(){
-        playAllButton = new JButton("PLAY ALL");
-        playAllButton.setBounds(840,250,100,40);//Setting location and size of button
+        playAllButton = new JButton("PLAY ALL TEXT");
+        playAllButton.setBounds(680,210,170,40);//Setting location and size of button
         frame.add(playAllButton);//adding button to the frame
         playAllButton.addActionListener(this);
 
-        playSelectedButton = new JButton("PLAY SELECTED");
-        playSelectedButton.setBounds(840,200,140,40);//Setting location and size of button
+        playSelectedButton = new JButton("PLAY SELECTED TEXT");
+        playSelectedButton.setBounds(850,210,190,40);//Setting location and size of button
         frame.add(playSelectedButton);//adding button to the frame
         playSelectedButton.addActionListener(this);
 
