@@ -14,8 +14,8 @@ public class speechControlTest {
 
 		TextToSpeechAPI tts = ttsFactory.createTextToSpeechAPI("fakeTTSApi");
 		tts.playTts("Hey!!");
-		System.out.println(tts.getStuffToPLay());
-		//assertEquals(tts.getRate(), 70);
+		//System.out.println(tts.getStuffToPLay());
+		assertEquals(tts.getStuffToPLay(), "Hey!!");
 	}
 	
 	@Test
