@@ -307,13 +307,25 @@ public class MainGUI implements ActionListener, ChangeListener
                 String extension = j.getFileFilter().getDescription();
 
                 if (extension.equals(".docx")) {
-                    file = new File(j.getSelectedFile() + ".docx");
+                    //System.out.println(j.getSelectedFile());
+                    if(j.getSelectedFile().toString().endsWith(".docx")){
+                        file = new File(j.getSelectedFile().toString());
+                    }
+                    else{
+                        file = new File(j.getSelectedFile() + ".docx");
+                    }
+
                     SaverInterface wordSaver = SaverFactory.createSaver("word");
                     if (!wordSaver.writeContentsToFile(file, textBox.getText())) {
                         JOptionPane.showMessageDialog(frame, "Cannot write file to disk! \nCheck permissions");
                     }
                 } else if (extension.equals(".xlsx")) {
-                    file = new File(j.getSelectedFile() + ".xlsx");
+                    if(j.getSelectedFile().toString().endsWith(".xlsx")){
+                        file = new File(j.getSelectedFile().toString());
+                    }
+                    else{
+                        file = new File(j.getSelectedFile() + ".xlsx");
+                    }
                     SaverInterface excelSaver = SaverFactory.createSaver("excel");
                     if (!excelSaver.writeContentsToFile(file, textBox.getText())) {
                         JOptionPane.showMessageDialog(frame, "Cannot write file to disk! \nCheck permissions");
