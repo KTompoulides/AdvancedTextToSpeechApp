@@ -1,6 +1,6 @@
 package fileOpener;
-public class openerFactory {
-    public static openerInterface createOpener(String name) {
+public class OpenerFactory {
+    public static OpenerInterface createOpener(String name) {
         if (name.equals("word")) {
             return new MSWordOpener();
         }

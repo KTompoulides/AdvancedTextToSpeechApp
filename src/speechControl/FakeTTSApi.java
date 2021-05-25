@@ -1,13 +1,13 @@
 package speechControl;
 
-public class fakeTTSApi implements  TextToSpeechAPI{
+public class FakeTTSApi implements  TextToSpeechAPI{
     private String stuffToPLay;
     private int volume;
     private int pitch;
     private int rate;
 
     
-    public fakeTTSApi()
+    public FakeTTSApi()
     {
         stuffToPLay = "";
         volume = 100;

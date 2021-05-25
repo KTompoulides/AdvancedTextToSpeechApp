@@ -1,14 +1,14 @@
 package graphicalInterface;
 
-import actionRepeater.ActionPlayback;
 import actionRepeater.ActionRecorder;
-import encodingControl.encodingFactory;
-import encodingControl.encodingInterface;
-import fileOpener.openerFactory;
-import fileOpener.openerInterface;
+import actionRepeater.RecorderFactory;
+import actionRepeater.RecorderInterface;
+import encodingControl.EncodingFactory;
+import encodingControl.EncodingInterface;
+import fileOpener.OpenerFactory;
+import fileOpener.OpenerInterface;
 import fileSaver.*;
-import speechControl.TextToSpeechAPI;
-import speechControl.TtsFactory;
+import speechControl.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class mainGUI implements ActionListener, ChangeListener
+public class MainGUI implements ActionListener, ChangeListener
 {
 
 
@@ -48,21 +48,21 @@ public class mainGUI implements ActionListener, ChangeListener
     private Boolean recordEnabled = false;
 
     private TextToSpeechAPI tts;
-    private encodingInterface atbashEncoder;
-    private encodingInterface rot13Encoder;
-    private openerInterface wordOpener;
-    private openerInterface excelOpener;
-    private ActionRecorder recorder;
+    private EncodingInterface atbashEncoder;
+    private EncodingInterface rot13Encoder;
+    private OpenerInterface wordOpener;
+    private OpenerInterface excelOpener;
+    private RecorderInterface recorder;
 
     private Object[] objectToCheck;
 
 
     public void prepareGUI(){
         //factories init maybe move it to another method?
-        tts = TtsFactory.createTextToSpeechAPI("FreeTTSAdapter");
-        atbashEncoder = encodingFactory.createEncodingClass("atbash");
-        rot13Encoder = encodingFactory.createEncodingClass("rot13");
-        recorder = new ActionRecorder();
+        tts = TTSFactory.createTextToSpeechAPI("FreeTTSAdapter");
+        atbashEncoder = EncodingFactory.createEncodingClass("atbash");
+        rot13Encoder = EncodingFactory.createEncodingClass("rot13");
+        recorder = RecorderFactory.createRecorder("action");
 
 
 
@@ -220,11 +220,23 @@ public class mainGUI implements ActionListener, ChangeListener
         }
         else if(source.equals(playButton)){
             recordEnabled = false;
-            ActionPlayback player = new ActionPlayback();
-            player.replayActions(recorder);
 
+            //not fully implemented
+            while(!recorder.counterMaxed()){
+                Object nextAction = recorder.getNextAction();
+                if( nextAction.getClass().toString().equals("class java.awt.event.ActionEvent")){
+                    actionPerformed((ActionEvent) nextAction);
+                }
+                else{
+                    stateChanged((ChangeEvent) nextAction);
+                    System.out.println("EP!!!!!!!!!");
+                }
+
+
+            }
 
         }
+
         else if(source.equals(clearButton)){
             recordEnabled = false;
             recorder.clearActions();
@@ -247,7 +259,7 @@ public class mainGUI implements ActionListener, ChangeListener
 
             File file = fileChooser.getSelectedFile();
             if (file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4).endsWith("docx")){
-                wordOpener = openerFactory.createOpener("word");
+                wordOpener = OpenerFactory.createOpener("word");
                 String textToDisplay = wordOpener.getFileContents(file);
                 if (textToDisplay!=null) textBox.setText(textToDisplay);
                 else JOptionPane.showMessageDialog(frame, "General I/O Error \nCannot open file!");
@@ -256,7 +268,7 @@ public class mainGUI implements ActionListener, ChangeListener
 
             }
             else if (file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4).endsWith("xlsx")){
-                excelOpener = openerFactory.createOpener("excel");
+                excelOpener = OpenerFactory.createOpener("excel");
                 String textToDisplay = excelOpener.getFileContents(file);
                 if (textToDisplay!=null) textBox.setText(textToDisplay);
                 else JOptionPane.showMessageDialog(frame, "General I/O Error \nCannot open file!");
@@ -303,8 +315,9 @@ public class mainGUI implements ActionListener, ChangeListener
 
     public void stateChanged(ChangeEvent e) {
 
-        Object slider = e.getSource(); //updates voice parameters when slider is moved
-        //if (recordEnabled) recorder.addAction(e);
+        if (recordEnabled) recorder.addAction(e);
+
+        Object slider = e.getSource();
 
         if(slider.equals(volumeSlider)){
             tts.setVolume(volumeSlider.getValue());

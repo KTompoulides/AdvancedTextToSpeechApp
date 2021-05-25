@@ -2,7 +2,7 @@ package encodingControl;
 
 import java.util.ArrayList;
 
-public class encodeAtBash implements encodingInterface {
+public class EncodeAtBash implements EncodingInterface {
     @Override
     public String encode(String initialMsg) {
 

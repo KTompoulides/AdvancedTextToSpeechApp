@@ -5,10 +5,9 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
 
-public class MSWordOpener implements  openerInterface {
+public class MSWordOpener implements OpenerInterface {
     @Override
     public String getFileContents(File file) {
         String outString = "";

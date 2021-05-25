@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Iterator;
 
-public class MSExcelOpener implements openerInterface{
+public class MSExcelOpener implements OpenerInterface {
     @Override
     public String getFileContents(File file) {
         String outString = "";

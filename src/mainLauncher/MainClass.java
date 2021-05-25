@@ -1,12 +1,12 @@
 package mainLauncher;
 
-import graphicalInterface.mainGUI;
+import graphicalInterface.MainGUI;
 
 public class MainClass {
 
     public static void main(String[] args){
         System.out.println("***Advanced TTS Application***");
-        graphicalInterface.mainGUI mg = new mainGUI();
+        MainGUI mg = new MainGUI();
         mg.prepareGUI();
 
 

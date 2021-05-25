@@ -1,5 +1,5 @@
 package encodingControl;
 
-public interface encodingInterface {
+public interface EncodingInterface {
     public String encode(String string);
 }

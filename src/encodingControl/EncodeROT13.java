@@ -1,6 +1,6 @@
 package encodingControl;
 
-public class encodeROT13 implements encodingInterface{
+public class EncodeROT13 implements EncodingInterface {
     @Override
     public String encode(String initialMsg) {
         String encodedMsg = ""; //initialize output string
