@@ -23,6 +23,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -89,9 +90,19 @@ public class MainGUI implements ActionListener, ChangeListener
         pitchLabel.setBounds(700,140,150,40);
         frame.add(pitchLabel);
 
-        pitchLabel.setText("Speech Transform Controls");
-        pitchLabel.setBounds(755,05,200,40);
-        frame.add(pitchLabel);
+        audioLabel.setText("Speech Transform Controls");
+        audioLabel.setBounds(790,05,200,40);
+        frame.add(audioLabel);
+
+        JLabel replayLabel = new JLabel();
+        replayLabel.setText("Action Record Controls");
+        replayLabel.setBounds(810,300,200,40);
+        frame.add(replayLabel);
+
+        JLabel encodeLabel = new JLabel();
+        encodeLabel.setText("Text Encoding Controls");
+        encodeLabel.setBounds(810,500,200,40);
+        frame.add(encodeLabel);
 
         textBoxProperties();
         sliderProperties();
@@ -105,47 +116,50 @@ public class MainGUI implements ActionListener, ChangeListener
     }
     public void buttonProperties(){
         playAllButton = new JButton("PLAY ALL TEXT");
-        playAllButton.setBounds(680,210,170,40);//Setting location and size of button
+        playAllButton.setBounds(700,210,170,40);//Setting location and size of button
         frame.add(playAllButton);//adding button to the frame
         playAllButton.addActionListener(this);
 
         playSelectedButton = new JButton("PLAY SELECTED TEXT");
-        playSelectedButton.setBounds(850,210,190,40);//Setting location and size of button
+        playSelectedButton.setBounds(900,210,190,40);//Setting location and size of button
         frame.add(playSelectedButton);//adding button to the frame
         playSelectedButton.addActionListener(this);
 
-        rot13Button = new JButton("ENCRYPT ROT-13");
-        rot13Button.setBounds(700,400,180,40);//Setting location and size of button
-        frame.add(rot13Button);//adding button to the frame
-        rot13Button.addActionListener(this);
 
-        openButton = new JButton("Open file");
-        openButton.setBounds(700,550,140,40);//Setting location and size of button
+
+        openButton = new JButton("OPEN FILE");
+        openButton.setBounds(20,10,140,40);//Setting location and size of button
         frame.add(openButton);//adding button to the frame
         openButton.addActionListener(this);
 
-        saveButton = new JButton("Save file");
-        saveButton.setBounds(840,550,140,40);//Setting location and size of button
+        saveButton = new JButton("SAVE FILE");
+        saveButton.setBounds(180,10,140,40);//Setting location and size of button
         frame.add(saveButton);//adding button to the frame
         saveButton.addActionListener(this);
 
-        atbashButton = new JButton("ENCRYPT ATBASH");
-        atbashButton.setBounds(700,450,180,40);//Setting location and size of button
+        atbashButton = new JButton("<HTML>ENCRYPT/DECRYPT<BR>ATBASH </HTML>");
+        atbashButton.setBounds(900,550,180,70);//Setting location and size of button
         frame.add(atbashButton);//adding button to the frame
         atbashButton.addActionListener(this);
 
-        playButton = new JButton("ACTIONS REPLAY");
-        playButton.setBounds(700,350,180,40);//Setting location and size of button
+        rot13Button = new JButton("<HTML>ENCRYPT/DECRYPT<BR>ROT-13 </HTML>");
+        rot13Button.setBounds(700,550,180,70);//Setting location and size of button
+        rot13Button.setHorizontalAlignment(SwingConstants.CENTER);
+        frame.add(rot13Button);//adding button to the frame
+        rot13Button.addActionListener(this);
+
+        playButton = new JButton("REPLAY ACTIONS");
+        playButton.setBounds(900,350,180,40);//Setting location and size of button
         frame.add(playButton);//adding button to the frame
         playButton.addActionListener(this);
 
-        recordButton = new JButton("ACTIONS RECORD");
-        recordButton.setBounds(700,300,180,40);//Setting location and size of button
+        recordButton = new JButton("RECORD ACTIONS");
+        recordButton.setBounds(700,350,180,40);//Setting location and size of button
         frame.add(recordButton);//adding button to the frameREPLAY
         recordButton.addActionListener(this);
 
-        clearButton = new JButton("ACTIONS CLEAR");
-        clearButton.setBounds(700,600,180,40);//Setting location and size of button
+        clearButton = new JButton("CLEAR ACTIONS");
+        clearButton.setBounds(800,400,180,40);//Setting location and size of button
         frame.add(clearButton);//adding button to the frameREPLAY
         clearButton.addActionListener(this);
 
@@ -189,7 +203,7 @@ public class MainGUI implements ActionListener, ChangeListener
         JScrollPane scrollableTextArea = new JScrollPane(textBox);
         scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollableTextArea.setBounds(20,20,650,700);
+        scrollableTextArea.setBounds(20,60,650,700);
         frame.add(scrollableTextArea);
         frame.setVisible(true);
 
@@ -230,7 +244,6 @@ public class MainGUI implements ActionListener, ChangeListener
                 }
                 else{
                     stateChanged((ChangeEvent) nextAction);
-                    System.out.println("EP!!!!!!!!!");
                 }
 
 
