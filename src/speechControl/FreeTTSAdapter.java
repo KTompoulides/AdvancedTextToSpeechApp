@@ -1,3 +1,10 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//This is the adapter that calls the real freeTTS
+
 package speechControl;
 
 import com.sun.speech.freetts.Voice;
@@ -6,19 +13,18 @@ import com.sun.speech.freetts.VoiceManager;
 public class FreeTTSAdapter implements TextToSpeechAPI{
 
     private Voice voice;
-    private VoiceManager voiceManager;
-    private String stuffToPLay;
+    private String stuffToPLay; //not used
 
     public FreeTTSAdapter(){
         System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
-        voiceManager = VoiceManager.getInstance();
+        VoiceManager voiceManager = VoiceManager.getInstance();
         voice = voiceManager.getVoice("kevin");
         voice.allocate();
 
     }
     @Override
     public void playTts(String textToPlay) {
-        try{
+        try {
             voice.speak(textToPlay);
         }catch (Exception e){
             System.out.println("freeTTS error possible API problem");
@@ -59,7 +65,7 @@ public class FreeTTSAdapter implements TextToSpeechAPI{
     }
     
     @Override
-    public String getStuffToPLay(){ //νέα μέθοδος για να ελέγξουμε αν περνάει το string στην ttsPlay()
+    public String getStuffToPLay(){
         return stuffToPLay;
     }
 }

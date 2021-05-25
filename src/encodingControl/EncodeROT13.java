@@ -1,3 +1,10 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//A simple ROT13 text encoder
+
 package encodingControl;
 
 public class EncodeROT13 implements EncodingInterface {

@@ -1,3 +1,10 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//A simple ATBASH text encoder
+
 package encodingControl;
 
 import java.util.ArrayList;
@@ -6,8 +13,8 @@ public class EncodeAtBash implements EncodingInterface {
     @Override
     public String encode(String initialMsg) {
 
-        ArrayList<Character> al = new ArrayList<Character>();
-        ArrayList<Character> alc = new ArrayList<Character>();
+        ArrayList<Character> al = new ArrayList<>();
+        ArrayList<Character> alc = new ArrayList<>();
         String encodedMsg = "";
 
         for (char c = 'a'; c <= 'z'; c++) {
@@ -16,7 +23,7 @@ public class EncodeAtBash implements EncodingInterface {
         for (char c = 'A'; c <= 'Z'; c++) {
             alc.add(c);
         }
-        char oc = ' ';
+        char oc;
 
         for (int i = 0; i < initialMsg.length(); i++) {
             char c = initialMsg.charAt(i);

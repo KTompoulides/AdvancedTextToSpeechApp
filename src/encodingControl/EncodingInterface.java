@@ -1,5 +1,12 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//Encoding interface MUST be implemented by encoding classes
+
 package encodingControl;
 
 public interface EncodingInterface {
-    public String encode(String string);
+    String encode(String string);
 }

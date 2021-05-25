@@ -1,3 +1,10 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//Opener class that opens and "reads" .xlsx format files
+
 package fileOpener;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,12 +24,10 @@ public class MSExcelOpener implements OpenerInterface {
             FileInputStream inputFile = new FileInputStream(file);
             XSSFWorkbook excel = new XSSFWorkbook(inputFile);
             XSSFSheet ExcelSheet = excel.getSheetAt(0);
-            Iterator<Row> iterator = ExcelSheet.iterator();
 
 
-            while (iterator.hasNext()) {
+            for (Row ExcelRow : ExcelSheet) {
 
-                Row ExcelRow = iterator.next();
                 Iterator<Cell> cellIterator = ExcelRow.cellIterator();
 
                 while (cellIterator.hasNext()) {

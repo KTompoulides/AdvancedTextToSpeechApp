@@ -1,3 +1,9 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//Factory that returns "encoding" objects as desired
 package encodingControl;
 
 public class EncodingFactory {

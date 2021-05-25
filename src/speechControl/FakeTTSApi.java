@@ -1,3 +1,10 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//This is a fake API that simply implements TextToSpeechAPI for testing purposes
+
 package speechControl;
 
 public class FakeTTSApi implements  TextToSpeechAPI{

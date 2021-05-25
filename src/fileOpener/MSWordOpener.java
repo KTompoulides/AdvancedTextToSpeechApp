@@ -1,3 +1,10 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//Opener class that opens and "reads" .xlsx format files
+
 package fileOpener;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -15,8 +22,8 @@ public class MSWordOpener implements OpenerInterface {
             FileInputStream inputFile = new FileInputStream(file.getAbsolutePath());
             XWPFDocument document = new XWPFDocument(inputFile);
             List<XWPFParagraph> paragraphs = document.getParagraphs();
-            for (int i = 0; i < paragraphs.size(); i++) {
-                outString += (paragraphs.get(i).getParagraphText());
+            for (XWPFParagraph paragraph : paragraphs) {
+                outString += (paragraph.getParagraphText());
             }
             inputFile.close();
 

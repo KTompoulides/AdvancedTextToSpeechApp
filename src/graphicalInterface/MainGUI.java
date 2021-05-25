@@ -1,6 +1,14 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+/*
+    This is the main class for the graphical interface everything graphical related happens here
+ */
+
 package graphicalInterface;
 
-import actionRepeater.ActionRecorder;
 import actionRepeater.RecorderFactory;
 import actionRepeater.RecorderInterface;
 import encodingControl.EncodingFactory;
@@ -24,7 +32,6 @@ public class MainGUI implements ActionListener, ChangeListener
 
 
     private JFrame frame = new JFrame();//creating object of JFrame class
-    private JPanel panel = new JPanel();
     private JButton playAllButton;//Creating object of JButton class
     private JButton playSelectedButton;//Creating object of JButton class
     private JButton rot13Button;
@@ -44,28 +51,24 @@ public class MainGUI implements ActionListener, ChangeListener
     private JLabel volumeLabel = new JLabel();
 
     private JTextArea textBox;
-    private JScrollPane scrollableTextArea;
     private Boolean recordEnabled = false;
 
     private TextToSpeechAPI tts;
     private EncodingInterface atbashEncoder;
     private EncodingInterface rot13Encoder;
-    private OpenerInterface wordOpener;
-    private OpenerInterface excelOpener;
     private RecorderInterface recorder;
 
     private Object[] objectToCheck;
 
 
-    public void prepareGUI(){
-        //factories init maybe move it to another method?
+    public void initVariables(){ //initializing variables
         tts = TTSFactory.createTextToSpeechAPI("FreeTTSAdapter");
         atbashEncoder = EncodingFactory.createEncodingClass("atbash");
         rot13Encoder = EncodingFactory.createEncodingClass("rot13");
         recorder = RecorderFactory.createRecorder("action");
 
-
-
+    }
+    public void prepareGUI(){
         frame.setTitle("Advanced TTS Application");//Setting title of JFrame
         frame.getContentPane().setLayout(null);//Setting Layout
         frame.setSize(1050, 800);
@@ -178,17 +181,10 @@ public class MainGUI implements ActionListener, ChangeListener
 
     public void textBoxProperties() {
         textBox = new JTextArea();
-        scrollableTextArea = new JScrollPane(textBox);
+        JScrollPane scrollableTextArea = new JScrollPane(textBox);
         scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-
         scrollableTextArea.setBounds(20,20,650,700);
-
-        //scrollableTextArea.setToolTipText("text");
-        //scrollableTextArea.setToolTipText("text");
-        //textBox.setBounds(20,20,650,600);
-        //textBox.setText("Type here!");
         frame.add(scrollableTextArea);
         frame.setVisible(true);
 
@@ -198,7 +194,7 @@ public class MainGUI implements ActionListener, ChangeListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("ACTION!!!!"+e.getSource());
+        //Checks if a button has been pressed
         Object source = e.getSource();
         if (recordEnabled) recorder.addAction(e);
 
@@ -259,7 +255,7 @@ public class MainGUI implements ActionListener, ChangeListener
 
             File file = fileChooser.getSelectedFile();
             if (file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4).endsWith("docx")){
-                wordOpener = OpenerFactory.createOpener("word");
+                OpenerInterface wordOpener = OpenerFactory.createOpener("word");
                 String textToDisplay = wordOpener.getFileContents(file);
                 if (textToDisplay!=null) textBox.setText(textToDisplay);
                 else JOptionPane.showMessageDialog(frame, "General I/O Error \nCannot open file!");
@@ -268,7 +264,7 @@ public class MainGUI implements ActionListener, ChangeListener
 
             }
             else if (file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4).endsWith("xlsx")){
-                excelOpener = OpenerFactory.createOpener("excel");
+                OpenerInterface excelOpener = OpenerFactory.createOpener("excel");
                 String textToDisplay = excelOpener.getFileContents(file);
                 if (textToDisplay!=null) textBox.setText(textToDisplay);
                 else JOptionPane.showMessageDialog(frame, "General I/O Error \nCannot open file!");
@@ -288,18 +284,19 @@ public class MainGUI implements ActionListener, ChangeListener
             int ret = j.showSaveDialog(saveButton);
 
             if (ret == JFileChooser.APPROVE_OPTION) {
-                File file = j.getSelectedFile();
+                j.getSelectedFile();
+                File file;
                 String extension = j.getFileFilter().getDescription();
 
                 if (extension.equals(".docx")) {
                     file = new File(j.getSelectedFile() + ".docx");
-                    saverInterface wordSaver = saverFactory.createSaver("word");
+                    SaverInterface wordSaver = SaverFactory.createSaver("word");
                     if (!wordSaver.writeContentsToFile(file, textBox.getText())) {
                         JOptionPane.showMessageDialog(frame, "Cannot write file to disk! \nCheck permissions");
                     }
                 } else if (extension.equals(".xlsx")) {
                     file = new File(j.getSelectedFile() + ".xlsx");
-                    saverInterface excelSaver = saverFactory.createSaver("excel");
+                    SaverInterface excelSaver = SaverFactory.createSaver("excel");
                     if (!excelSaver.writeContentsToFile(file, textBox.getText())) {
                         JOptionPane.showMessageDialog(frame, "Cannot write file to disk! \nCheck permissions");
                     }
@@ -314,6 +311,7 @@ public class MainGUI implements ActionListener, ChangeListener
     }
 
     public void stateChanged(ChangeEvent e) {
+        //checks if a slider has been moved
 
         if (recordEnabled) recorder.addAction(e);
 

@@ -1,3 +1,9 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//This is a test class for the encode system it checks if the encoder encodes Strings correctly
 package Testing;
 
 import encodingControl.EncodingFactory;

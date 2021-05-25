@@ -1,14 +1,21 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//Recorder interface MUST be implemented by recorder classes
+
 package actionRepeater;
 
 import java.util.ArrayList;
 
 public interface RecorderInterface {
 
-    public void addAction(Object action);
-    public ArrayList<Object> getActionsList();
-    public void clearActions();
-    public Object getFirstAction();
-    public Object getNextAction();
-    public boolean isEmpty();
-    public boolean counterMaxed();
+    void addAction(Object action);
+    ArrayList<Object> getActionsList();
+    void clearActions();
+    Object getFirstAction();
+    Object getNextAction();
+    boolean isEmpty();
+    boolean counterMaxed();
 }

@@ -1,24 +1,27 @@
-package speechControl;
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
 
-//import freeTTS libraries
-import com.sun.speech.freetts.Voice;
-import com.sun.speech.freetts.VoiceManager;
+//This is the TTS interface MUST be implemented by all TTS related classes
+
+package speechControl;
 
 public interface TextToSpeechAPI {
 
-    public void playTts(String string);
+    void playTts(String string);
 
-    public void setVolume(int volume);
+    void setVolume(int volume);
 
-    public void setPitch(int pitch);
+    void setPitch(int pitch);
 
-    public void setRate(int rate);
+    void setRate(int rate);
 
-    public int getVolume();
+    int getVolume();
 
-    public int getPitch();
+    int getPitch();
 
-    public int getRate();
+    int getRate();
     
-    public String getStuffToPLay();
+    String getStuffToPLay();
 }

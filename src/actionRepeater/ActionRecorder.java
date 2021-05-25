@@ -1,9 +1,16 @@
+/*
+    Nikolaos Oikonomopoulos 4298
+    Kallinikos Tompoulidis 3344
+ */
+
+//Recorder class that saves Objects to an ArrayList currently used to save ActionEvents and ChangeEvents not fully working in conjunction with GUI ,could be improved
+
 package actionRepeater;
 
 import java.util.ArrayList;
 
 public class ActionRecorder implements RecorderInterface {
-    private ArrayList<Object> actionsList = new ArrayList<Object>();
+    private ArrayList<Object> actionsList = new ArrayList<>();
     private int counter = 0;
 
 
@@ -24,8 +31,7 @@ public class ActionRecorder implements RecorderInterface {
     }
 
     public Object getFirstAction(){
-        Object act = actionsList.get(0);
-        return act;
+        return actionsList.get(0);
     }
 
     public Object getNextAction(){
@@ -36,13 +42,11 @@ public class ActionRecorder implements RecorderInterface {
     }
 
     public boolean isEmpty(){
-        if(actionsList.size()==0) return true;
-        return false;
+        return actionsList.size() == 0;
     }
 
     public boolean counterMaxed(){
-        if(counter == actionsList.size()) return true;
-        return false;
+        return counter == actionsList.size();
     }
 
     public void counterReset(){
