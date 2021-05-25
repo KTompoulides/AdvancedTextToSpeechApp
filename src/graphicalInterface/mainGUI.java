@@ -8,7 +8,7 @@ import fileOpener.openerFactory;
 import fileOpener.openerInterface;
 import fileSaver.*;
 import speechControl.TextToSpeechAPI;
-import speechControl.ttsFactory;
+import speechControl.TtsFactory;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -59,7 +59,7 @@ public class mainGUI implements ActionListener, ChangeListener
 
     public void prepareGUI(){
         //factories init maybe move it to another method?
-        tts = ttsFactory.createTextToSpeechAPI("FreeTTSAdapter");
+        tts = TtsFactory.createTextToSpeechAPI("FreeTTSAdapter");
         atbashEncoder = encodingFactory.createEncodingClass("atbash");
         rot13Encoder = encodingFactory.createEncodingClass("rot13");
         recorder = new ActionRecorder();
