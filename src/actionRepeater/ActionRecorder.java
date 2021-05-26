@@ -35,9 +35,15 @@ public class ActionRecorder implements RecorderInterface {
     }
 
     public Object getNextAction(){
-        Object act = actionsList.get(counter);
-        counter++;
-        return  act;
+        try {
+            Object act = actionsList.get(counter);
+            counter++;
+            return  act;
+        }
+        catch(Exception e){
+            return new Object();
+        }
+
 
     }
 

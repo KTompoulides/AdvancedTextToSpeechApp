@@ -252,7 +252,7 @@ public class MainGUI implements ActionListener, ChangeListener
                     actionPerformed((ActionEvent) nextAction);
                 }
                 else{
-                    stateChanged((ChangeEvent) nextAction);
+                    //stateChanged((ChangeEvent) nextAction);
                 }
 
 
