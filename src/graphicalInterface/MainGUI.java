@@ -218,7 +218,13 @@ public class MainGUI implements ActionListener, ChangeListener
         if (recordEnabled) recorder.addAction(e);
 
         if(source.equals(playAllButton)){
-            tts.playTts(textBox.getText());
+            if(textBox.getText().strip().equals("")) {
+                JOptionPane.showMessageDialog(frame, "There is no text to transform into speech!\nType something in the editor or open a file by clicking OPEN FILE");
+            }
+            else{
+                tts.playTts(textBox.getText());
+            }
+
 
         }
         else if (source.equals(playSelectedButton)){
@@ -234,6 +240,9 @@ public class MainGUI implements ActionListener, ChangeListener
             recordEnabled = true;
         }
         else if(source.equals(playButton)){
+            if(recorder.getActionsList().size()==0){
+                JOptionPane.showMessageDialog(frame, "No actions have been recorded!\nPlease click the RECORD ACTIONS button and continue using the application normally.\nYour actions are saved automatically.");
+            }
             recordEnabled = false;
 
             //not fully implemented
