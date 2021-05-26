@@ -15,15 +15,16 @@ import encodingControl.EncodingFactory;
 import encodingControl.EncodingInterface;
 import fileOpener.OpenerFactory;
 import fileOpener.OpenerInterface;
-import fileSaver.*;
-import speechControl.*;
+import fileSaver.SaverFactory;
+import fileSaver.SaverInterface;
+import speechControl.TTSFactory;
+import speechControl.TextToSpeechAPI;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -59,8 +60,6 @@ public class MainGUI implements ActionListener, ChangeListener
     private EncodingInterface atbashEncoder;
     private EncodingInterface rot13Encoder;
     private RecorderInterface recorder;
-
-    private Object[] objectToCheck;
 
 
     public void initVariables(){ //initializing variables
@@ -137,12 +136,12 @@ public class MainGUI implements ActionListener, ChangeListener
         frame.add(saveButton);//adding button to the frame
         saveButton.addActionListener(this);
 
-        atbashButton = new JButton("<HTML>ENCRYPT/DECRYPT<BR>ATBASH </HTML>");
+        atbashButton = new JButton("<HTML>ENCODE/DECODE<BR>ATBASH </HTML>");
         atbashButton.setBounds(900,550,180,70);//Setting location and size of button
         frame.add(atbashButton);//adding button to the frame
         atbashButton.addActionListener(this);
 
-        rot13Button = new JButton("<HTML>ENCRYPT/DECRYPT<BR>ROT-13 </HTML>");
+        rot13Button = new JButton("<HTML>ENCODE/DECODE<BR>ROT-13 </HTML>");
         rot13Button.setBounds(700,550,180,70);//Setting location and size of button
         rot13Button.setHorizontalAlignment(SwingConstants.CENTER);
         frame.add(rot13Button);//adding button to the frame
@@ -228,7 +227,7 @@ public class MainGUI implements ActionListener, ChangeListener
 
         }
         else if (source.equals(playSelectedButton)){
-            if(textBox.getSelectedText()==null || textBox.getSelectedText()==""){
+            if(textBox.getSelectedText()==null || textBox.getSelectedText().equals("")){
                 JOptionPane.showMessageDialog(frame, "No text selected! \nPlease select some text");
             }
             else {
@@ -248,6 +247,7 @@ public class MainGUI implements ActionListener, ChangeListener
             //not fully implemented
             while(!recorder.counterMaxed()){
                 Object nextAction = recorder.getNextAction();
+                if(nextAction==null) return;
                 if( nextAction.getClass().toString().equals("class java.awt.event.ActionEvent")){
                     actionPerformed((ActionEvent) nextAction);
                 }
@@ -267,10 +267,16 @@ public class MainGUI implements ActionListener, ChangeListener
         }
 
         else  if (source.equals(rot13Button)){
+            if(textBox.getText()==null || textBox.getText().strip()==""){
+                JOptionPane.showMessageDialog(frame, "There is no text encode!\nType something in the editor or open a file by clicking OPEN FILE");
+            }
             textBox.setText(rot13Encoder.encode(textBox.getText()));
         }
 
         else  if (source.equals(atbashButton)){
+            if(textBox.getText()==null || textBox.getText().strip()==""){
+                JOptionPane.showMessageDialog(frame, "There is no text encode!\nType something in the editor or open a file by clicking OPEN FILE");
+            }
             textBox.setText(atbashEncoder.encode(textBox.getText()));
         }
 
@@ -281,6 +287,7 @@ public class MainGUI implements ActionListener, ChangeListener
             fileChooser.showOpenDialog(null);
 
             File file = fileChooser.getSelectedFile();
+            if(file==null) return;
             if (file.getAbsolutePath().substring(file.getAbsolutePath().length() - 4).endsWith("docx")){
                 OpenerInterface wordOpener = OpenerFactory.createOpener("word");
                 String textToDisplay = wordOpener.getFileContents(file);
