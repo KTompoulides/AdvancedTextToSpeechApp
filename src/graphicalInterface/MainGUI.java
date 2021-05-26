@@ -295,6 +295,9 @@ public class MainGUI implements ActionListener, ChangeListener
         }
         else if(source.equals(saveButton)){
 
+            if(textBox.getText().strip().equals("")){
+                JOptionPane.showMessageDialog(frame, "No text to write! \nThe file that will be created will have no contents, proceed with caution");
+            }
             JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
             j.setDialogType(JFileChooser.SAVE_DIALOG);
             j.setFileFilter(new FileNameExtensionFilter(".xlsx","xlsx"));
