@@ -296,7 +296,10 @@ public class MainGUI implements ActionListener, ChangeListener
         else if(source.equals(saveButton)){
 
             if(textBox.getText().strip().equals("")){
-                JOptionPane.showMessageDialog(frame, "No text to write! \nThe file that will be created will have no contents, proceed with caution");
+                int opt = JOptionPane.showConfirmDialog(frame, "No text to write! \nThe file that will be created will have no contents, are you sure?");
+                if(opt==1||opt==2){
+                    return;
+                }
             }
             JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
             j.setDialogType(JFileChooser.SAVE_DIALOG);
